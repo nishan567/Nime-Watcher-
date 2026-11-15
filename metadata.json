@@ -1,0 +1,6 @@
+{
+  "name": "Nime Watcher",
+  "description": "Anime streaming and discovery Android app with Media3 playback, Picture-in-Picture, background audio, watchlist sync, and profile customization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

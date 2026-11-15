@@ -1,0 +1,849 @@
+MASTER DEVELOPMENT PROMPT — NIME WATCHER
+Complete Free Anime Streaming Android Application
+Act as a senior Android application architect, Kotlin developer, UI/UX designer, Firebase engineer, video streaming engineer, and security specialist.
+Your task is to design and develop a complete, production-quality Android anime streaming application named:
+NIME WATCHER
+Tagline: Watch Anime. Anytime. Free.
+This must be a real, functional Android application, not a UI prototype or demonstration.
+The final target is a buildable Android APK.
+I have basic coding knowledge and only an Android phone with 8GB RAM or more. I intend to use Google AI Studio, Gemini, open-source tools, and Termux to develop and build this project.
+Avoid paid development tools, paid APIs, and mandatory subscriptions.
+Do not assume I have a computer.
+1. CORE APPLICATION CONCEPT
+Build an anime streaming platform inspired by the browsing experience of Crunchyroll, with original branding and UI.
+Application name: NIME WATCHER.
+Main concept:
+Users create accounts.
+Users browse anime.
+Users search anime.
+Users watch anime episodes.
+Users browse seasons and episodes.
+Users save favorites.
+Users save anime to Watch Later.
+Users continue watching from their last position.
+Users watch anime in Picture-in-Picture mode.
+Users can continue audio playback in the background.
+Users receive notifications about new episodes when supported.
+Users manage their personal anime profiles.
+The application should be free to use.
+IMPORTANT COPYRIGHT REQUIREMENT:
+Only use legally licensed anime streams, authorized embedding providers, public-domain content, or video files that I have permission to distribute.
+Never scrape unauthorized streaming websites, bypass DRM, or download copyrighted content without permission.
+Build the streaming infrastructure so that I can connect additional authorized anime content providers later.
+Do not falsely claim that all anime are available if no authorized source provides them.
+2. TECHNOLOGY STACK
+Prefer the following technology:
+Android:
+Kotlin
+Jetpack Compose
+Material 3
+Android Studio compatible project structure
+Gradle Kotlin DSL
+MVVM architecture
+Repository pattern
+Kotlin Coroutines
+StateFlow
+Navigation:
+Navigation Compose
+Database:
+Firebase Firestore
+Room Database for local caching and playback progress
+Authentication:
+Firebase Authentication
+Storage:
+Firebase Storage for supported profile images and user uploads, subject to free-tier limits.
+Security:
+Firebase App Check
+Firebase Security Rules
+Secure authentication sessions
+HTTPS
+Video:
+AndroidX Media3 ExoPlayer
+MediaSession
+MediaSessionService
+Android Picture-in-Picture API
+Image loading:
+Coil
+Dependency injection:
+Hilt, if compatible with the selected project configuration.
+Use stable, mutually compatible library versions.
+Do not invent dependency versions or use abandoned libraries.
+Prefer official Android and Firebase documentation.
+3. COMPLETE UI DESIGN
+Create a beautiful, modern anime streaming interface.
+DESIGN DIRECTION:
+Dark black background.
+Charcoal cards.
+Vibrant orange highlights.
+White typography.
+Orange gradients.
+Cinematic anime banners.
+Rounded corners.
+Smooth animations.
+Premium streaming application appearance.
+Use original NIME WATCHER branding.
+Do not copy Crunchyroll logos or copyrighted branding.
+Create a consistent design system with reusable components.
+Include:
+Splash screen.
+Loading animations.
+Empty states.
+Error states.
+Skeleton loading.
+Offline states.
+Responsive layouts.
+Accessibility support.
+BOTTOM NAVIGATION:
+Home
+Search
+Watch Later
+Favorites
+Profile
+4. SPLASH SCREEN
+Create an animated splash screen.
+Display:
+NIME WATCHER logo.
+Orange glowing logo animation.
+App tagline.
+Dark anime-inspired background.
+Loading indicator.
+After loading:
+Check authentication status.
+If logged in, open Home.
+If logged out, open Login or Welcome screen.
+Do not force users to log in repeatedly if their valid Firebase session is still active.
+5. USER REGISTRATION AND LOGIN
+Use Firebase Authentication.
+SIGNUP SCREEN:
+Required fields:
+First Name
+Last Name
+Surname
+Email Address
+Password
+Date of Birth
+Include:
+Password visibility button.
+Password strength indicator.
+Confirm password.
+Terms and Privacy Policy acceptance.
+CAPTCHA or appropriate anti-abuse verification.
+Profile picture selection.
+LOGIN SCREEN:
+Include:
+Email address.
+Password.
+Remember Me.
+Forgot Password.
+Sign In.
+Create Account.
+Google Sign-In.
+FUNCTIONAL REQUIREMENTS:
+Register using Firebase Authentication.
+Save public user profile information in Firestore.
+Never store plaintext passwords in Firestore.
+Validate email addresses.
+Validate password strength.
+Verify email where appropriate.
+Implement password reset.
+Handle incorrect credentials.
+Handle network errors.
+Keep authenticated users signed in securely.
+Remember Me should preserve the session using Firebase Authentication persistence.
+Allow logout.
+Prevent duplicate account registration.
+Handle deleted and disabled accounts safely.
+Do not create a fake CAPTCHA interface.
+Use Firebase App Check and an appropriate supported human-verification mechanism.
+Do not expose Firebase Admin credentials or service account private keys in the Android application.
+6. ANIME PROFILE PICTURE SYSTEM
+Create a profile avatar selection page.
+Provide a collection of original anime-inspired avatars.
+Categories:
+Male anime avatars.
+Female anime avatars.
+Fantasy characters.
+Samurai avatars.
+Ninja avatars.
+Cute anime avatars.
+Dark anime avatars.
+Minimal anime avatars.
+Include:
+Circular avatar previews.
+Select avatar.
+Change avatar.
+Custom image upload.
+Crop image.
+Save selection.
+Use original, licensed, or otherwise authorized avatar artwork.
+Do not distribute copyrighted character artwork without permission.
+Store the selected avatar reference in the user's Firestore profile.
+7. HOME PAGE
+Design a complete anime discovery homepage.
+HEADER:
+NIME WATCHER logo.
+Notification icon.
+User profile avatar.
+HERO BANNER:
+Featured anime artwork.
+Anime title.
+Short description.
+Watch Now button.
+Add to Favorites button.
+ANIME SECTIONS:
+Trending Anime
+Popular Anime
+Recently Added
+Recently Updated
+Most Watched
+New Episodes
+Action Anime
+Adventure Anime
+Romance Anime
+Comedy Anime
+Fantasy Anime
+Isekai Anime
+Drama Anime
+Mystery Anime
+Supernatural Anime
+Continue Watching
+Recommended For You
+Your Favorites
+Each anime card should display:
+Poster.
+Anime title.
+Release year when available.
+Genre.
+Rating when available.
+Sub or Dub availability when verified.
+Clicking an anime card should open its details page.
+Use horizontally scrollable anime sections.
+Add See All buttons.
+Never show fake ratings, episode counts, or popularity statistics.
+8. ANIME SEARCH SYSTEM
+Create a powerful search feature.
+Search by:
+Anime title.
+Alternative title.
+Japanese title.
+Genre.
+Release year.
+Season.
+Language.
+Sub or Dub.
+Popularity.
+Features:
+Search suggestions.
+Search history.
+Clear history.
+Trending searches.
+Recent searches.
+Filters.
+Sorting.
+Pagination.
+Loading states.
+No results screen.
+Allow users to filter anime by:
+Action.
+Adventure.
+Romance.
+Comedy.
+Fantasy.
+Horror.
+Mystery.
+Sci-Fi.
+Isekai.
+Drama.
+Search should use a real anime catalog provider or my own authorized catalog database.
+Implement a provider abstraction so I can change catalog sources later.
+Catalog metadata and playable video sources must be treated as separate systems.
+9. ANIME DETAILS PAGE
+Every anime should have its own details page.
+Display:
+Anime poster.
+Cover artwork.
+Anime title.
+Alternative titles.
+Description.
+Genre.
+Release year.
+Status.
+Available languages.
+Season list.
+Episode count.
+Verified rating.
+Related anime.
+Buttons:
+Watch Now.
+Add to Favorites.
+Add to Watch Later.
+Share Anime.
+SEASON SYSTEM:
+Support:
+Season 1.
+Season 2.
+Season 3.
+Special episodes.
+Movies.
+OVAs.
+ONAs.
+Allow users to switch seasons.
+Display episodes in the correct order.
+Do not assume every anime has multiple seasons.
+10. EPISODE STREAMING PLAYER
+Use AndroidX Media3 ExoPlayer.
+Create a professional streaming player.
+PLAYER CONTROLS:
+Play.
+Pause.
+Seek forward.
+Seek backward.
+Timeline.
+Current playback time.
+Total duration.
+Fullscreen.
+Volume.
+Brightness.
+Playback speed.
+Video quality.
+Subtitle selection.
+Audio track selection.
+Next episode.
+Previous episode.
+Episode list.
+Lock player controls.
+QUALITY OPTIONS:
+Auto.
+360p.
+480p.
+720p.
+1080p.
+Higher qualities only when supported by the source.
+Do not fake video quality options.
+Support adaptive bitrate streaming where the provider supplies compatible streams.
+SUBTITLE SYSTEM:
+English.
+Bangla.
+Japanese.
+Other available languages.
+Support authorized subtitle formats such as WebVTT and supported subtitle tracks.
+Allow users to adjust subtitle size and appearance.
+AUTO NEXT EPISODE:
+When an episode finishes:
+Show Next Episode.
+Start automatically if enabled.
+Allow users to disable autoplay.
+Save playback progress.
+Update Continue Watching.
+INTRO SKIP:
+Support configurable intro skipping only when accurate intro timestamps are available.
+OUTRO SKIP:
+Support configurable outro skipping when accurate timestamps are available.
+11. YOUTUBE PREMIUM-STYLE BACKGROUND PLAYBACK
+THIS IS A VERY IMPORTANT FEATURE.
+Implement real background playback, not a simulated feature.
+Use:
+Media3 ExoPlayer.
+MediaSession.
+MediaSessionService.
+Android foreground media playback service.
+Android Picture-in-Picture API.
+FEATURE A: PICTURE-IN-PICTURE
+When users press the Android Home button or leave the player:
+Automatically enter PiP when enabled and supported.
+Keep the anime video playing.
+Show a movable floating video window.
+Allow resizing where Android supports it.
+Allow users to move the floating window.
+Keep playback running while users open other applications.
+Restore the full player when the floating window is tapped.
+FEATURE B: BACKGROUND AUDIO
+When users dismiss the PiP window:
+Continue audio playback if Background Playback is enabled.
+Do not unnecessarily destroy the ExoPlayer instance.
+Maintain the active MediaSession.
+Keep the episode playing.
+Allow the user to return to the app and restore playback.
+FEATURE C: LOCK SCREEN PLAYBACK
+When the screen is locked:
+Continue audio playback where supported.
+Show lock-screen media controls.
+Show episode title and artwork.
+Support Play/Pause.
+Support Next Episode.
+Support Previous Episode.
+FEATURE D: NOTIFICATION CONTROLS
+Provide a proper media notification with:
+Episode title.
+Anime title.
+Artwork.
+Play/Pause.
+Next Episode.
+Previous Episode.
+Stop playback.
+FEATURE E: PLAYBACK PREFERENCES
+Add settings:
+Background Playback ON/OFF.
+Automatic PiP ON/OFF.
+Continue Audio in Background ON/OFF.
+Lock Screen Controls ON/OFF.
+Auto Next Episode ON/OFF.
+IMPORTANT IMPLEMENTATION:
+Configure AndroidManifest.xml correctly.
+Declare required PiP support.
+Configure the media playback foreground service.
+Use the appropriate foreground service permissions and service type for supported Android versions.
+Handle Android lifecycle changes correctly.
+Keep playback service lifecycle independent of the Activity lifecycle.
+Handle audio focus.
+Handle headphones disconnecting.
+Handle incoming calls and interruptions.
+Handle network interruptions.
+Stop playback when the user explicitly presses Stop.
+Respect Android background execution restrictions.
+Request only necessary permissions.
+Do not use unnecessary overlay permissions.
+Do not bypass DRM or provider restrictions.
+Test this feature on actual Android devices.
+12. FAVORITES SYSTEM
+Create a Favorites page.
+Users can:
+Add anime to favorites.
+Remove anime.
+View all favorites.
+Search favorites.
+Sort favorites.
+Open anime details.
+Sync favorites with Firebase Firestore.
+Cache them locally for faster access.
+13. WATCH LATER SYSTEM
+Create a Watch Later page.
+Users can:
+Save anime.
+Remove anime.
+View saved anime.
+Sort by date added.
+Open anime details.
+Continue watching.
+Synchronize Watch Later with Firebase.
+14. CONTINUE WATCHING
+Track:
+Anime ID.
+Season ID.
+Episode ID.
+Last playback position.
+Total duration.
+Last watched timestamp.
+Display Continue Watching on Home.
+Allow users to resume playback from the saved position.
+Update playback progress periodically and when playback stops.
+Avoid excessive Firestore writes.
+Synchronize across devices when possible.
+15. WATCH HISTORY
+Create a Watch History section.
+Include:
+Recently watched episodes.
+Anime title.
+Episode title.
+Last watched date.
+Playback progress.
+Allow users to:
+Remove an individual history entry.
+Clear all history.
+Resume watching.
+16. PROFILE PAGE
+Create a beautiful user profile.
+Display:
+Profile avatar.
+First name.
+Last name.
+Username or display name.
+Account email.
+Join date.
+Statistics:
+Favorite anime count.
+Watch Later count.
+Episodes watched.
+Total watch time.
+Profile menu:
+My Favorites.
+Watch Later.
+Continue Watching.
+Watch History.
+Downloads, only if legally supported.
+Notifications.
+App Settings.
+Help and Support.
+Privacy Policy.
+Terms of Service.
+About.
+Logout.
+Delete Account.
+Allow editing profile information.
+17. NOTIFICATION SYSTEM
+Create notification support for:
+New episode alerts.
+New season alerts.
+Anime updates.
+App announcements.
+Account security notifications.
+Use Firebase Cloud Messaging where appropriate.
+Allow users to control notification categories.
+Do not send unnecessary promotional notifications.
+Use backend-managed notification delivery.
+18. OFFLINE AND DOWNLOAD FEATURES
+Design an offline playback architecture for future use.
+IMPORTANT:
+Only allow downloading when the video provider explicitly permits offline downloads.
+If supported:
+Show Download button.
+Show download progress.
+Manage downloaded episodes.
+Show storage usage.
+Delete downloads.
+Resume interrupted downloads.
+Do not provide unauthorized downloading from third-party streaming sources.
+19. MORE FEATURES
+Add:
+Dark and Light theme.
+Bangla and English interface.
+Recently Added.
+Trending Anime.
+Personalized Recommendations.
+Anime Genres.
+Anime Details.
+Share Anime.
+Episode Notifications.
+Search History.
+Watch History.
+Continue Watching.
+Auto Next Episode.
+Skip Intro.
+Playback Speed.
+Multiple Subtitles.
+Multiple Audio Tracks.
+Picture-in-Picture.
+Background Audio.
+Lock Screen Controls.
+Media Notifications.
+App Update Information.
+Help and Support.
+Report Broken Episode.
+Report Incorrect Anime Information.
+Build each feature as a reusable and maintainable component.
+20. FIREBASE DATABASE STRUCTURE
+Create a scalable Firestore structure.
+Suggested collections:
+users/
+userId/
+firstName
+lastName
+surname
+email
+dateOfBirth
+avatarUrl
+createdAt
+updatedAt
+preferences
+anime/
+animeId/
+title
+alternativeTitles
+description
+posterUrl
+bannerUrl
+genres
+releaseYear
+status
+catalogProvider
+catalogProviderId
+seasons/
+seasonId/
+animeId
+seasonNumber
+title
+episodes/
+episodeId/
+animeId
+seasonId
+episodeNumber
+title
+duration
+authorizedStreamProvider
+authorizedStreamReference
+users/{userId}/favorites/
+users/{userId}/watchLater/
+users/{userId}/watchHistory/
+users/{userId}/continueWatching/
+notifications/
+appConfiguration/
+Create appropriate Firestore indexes and security rules.
+Never trust client-side authorization alone.
+Users must only access or modify their own private records.
+Public anime catalog data should be readable by authorized application users but writable only by trusted administrators or backend services.
+Do not expose private user data.
+Do not store passwords in Firestore.
+21. ANIME CATALOG PROVIDER ARCHITECTURE
+Create an interface-based catalog architecture.
+Example responsibilities:
+Search anime.
+Get trending anime.
+Get popular anime.
+Get anime details.
+Get seasons.
+Get episodes.
+Get related anime.
+Separate catalog metadata from actual playable streams.
+A metadata API is not automatically a video streaming API.
+Do not assume that a public anime API provides video URLs.
+Support multiple providers through separate adapters.
+If no legitimate provider is configured:
+Show a clear configuration message.
+Use authorized demo content or placeholder metadata.
+Do not display fake playable streams.
+Create a central provider configuration file.
+Document how I can add a new authorized provider later.
+22. FUTURE ADVERTISEMENT SYSTEM
+I will add advertisements later to earn money.
+Do not make advertisements mandatory for the first version.
+Build an advertisement abstraction layer.
+Prepare support for:
+Banner advertisements.
+Interstitial advertisements.
+Rewarded advertisements.
+Allow advertisements to be enabled or disabled through remote configuration.
+IMPORTANT:
+Keep advertisements disabled by default.
+Do not insert ads into the video stream without authorization.
+Never interrupt a video unexpectedly.
+Respect child-directed advertising requirements and applicable privacy laws.
+Never expose ad network secret keys.
+Follow the advertising provider's current policies.
+Keep the architecture ready for future integration with a supported advertising network.
+Do not require a paid advertising SDK for the initial build.
+23. SECURITY AND PRIVACY
+Implement:
+Firebase Authentication.
+Firebase App Check.
+Firestore Security Rules.
+HTTPS communication.
+Input validation.
+Secure session handling.
+Rate limiting through trusted backend services where appropriate.
+Secure API configuration.
+No hardcoded secret keys.
+Account deletion.
+Privacy Policy.
+Terms of Service.
+User data deletion support.
+Do not collect unnecessary personal information.
+Date of birth should be handled with privacy safeguards.
+Do not expose user emails or private profiles publicly.
+24. PERFORMANCE OPTIMIZATION
+The application must work smoothly on Android phones with 8GB RAM.
+Optimize:
+Image caching.
+Lazy loading.
+Pagination.
+Firestore reads.
+Video memory usage.
+Background playback.
+Compose recomposition.
+Network requests.
+Startup time.
+Avoid:
+Memory leaks.
+Unnecessary background tasks.
+Excessive API calls.
+Repeated database writes.
+Blocking the main thread.
+Implement proper error handling and logging.
+25. PROJECT STRUCTURE
+Create a clean, modular project.
+Suggested structure:
+app/
+src/main/
+java/
+com/nimewatcher/
+core/
+data/
+local/
+remote/
+repository/
+domain/
+model/
+usecase/
+ui/
+splash/
+auth/
+home/
+search/
+anime/
+player/
+favorites/
+watchlater/
+profile/
+settings/
+playback/
+notifications/
+security/
+navigation/
+di/
+res/
+  drawable/
+  mipmap/
+  values/
+
+AndroidManifest.xml
+
+Also include:
+settings.gradle.kts
+build.gradle.kts
+app/build.gradle.kts
+gradle.properties
+ProGuard configuration when needed.
+Firebase configuration instructions.
+README.md.
+You may improve this structure if there is a strong architectural reason.
+26. TESTING REQUIREMENTS
+Test the following:
+AUTHENTICATION:
+Create account.
+Login.
+Logout.
+Remember Me.
+Forgot Password.
+Google Sign-In.
+Invalid credentials.
+ANIME:
+Browse catalog.
+Search.
+Open details.
+Change seasons.
+Browse episodes.
+PLAYER:
+Play.
+Pause.
+Seek.
+Change quality.
+Change subtitles.
+Next episode.
+Previous episode.
+BACKGROUND PLAYBACK:
+Press Home.
+Enter PiP.
+Open another app.
+Resize PiP.
+Dismiss PiP.
+Continue audio.
+Lock screen.
+Use notification controls.
+Return to NIME WATCHER.
+USER FEATURES:
+Add favorites.
+Remove favorites.
+Add Watch Later.
+Continue Watching.
+Watch History.
+Edit profile.
+NETWORK:
+Slow connection.
+Internet disconnect.
+Reconnect.
+Expired authentication.
+Unavailable video source.
+Do not claim a test passed unless it was actually executed.
+27. FREE DEVELOPMENT REQUIREMENTS
+My development budget is zero.
+Prefer:
+Free Google AI Studio access.
+Gemini assistance.
+Open-source Android libraries.
+Kotlin.
+Jetpack Compose.
+Firebase Spark plan where sufficient.
+Free-tier services where available.
+Termux.
+Open-source Gradle build tools.
+Avoid mandatory paid:
+APIs.
+Hosting.
+Databases.
+SDKs.
+Code editors.
+Development subscriptions.
+Explain any service that has free-tier quotas or may eventually require payment.
+Do not promise unlimited video hosting or unlimited bandwidth for free.
+Keep the application independent of paid services wherever possible.
+28. APK BUILD REQUIREMENTS
+The final project must be buildable as an Android APK.
+Provide:
+Complete source code.
+All required configuration files.
+Dependency declarations.
+AndroidManifest.xml.
+Firebase setup instructions.
+Gradle build instructions.
+Debug APK build instructions.
+Release APK build instructions.
+Signing instructions.
+Termux build instructions if technically supported by the selected Gradle and Android toolchain.
+The target must be a real Android application, not merely a website packaged inside a WebView.
+Use native Kotlin and Jetpack Compose.
+Explain any limitations of building Android applications directly on an Android phone using Termux.
+29. DEVELOPMENT WORKFLOW — VERY IMPORTANT
+Do not attempt to generate the entire application in one enormous response and silently omit files.
+Work in clearly defined stages.
+STAGE 1:
+Project architecture, Gradle configuration, theme, navigation, splash screen and UI foundation.
+STAGE 2:
+Firebase Authentication, registration, login, profile selection and account management.
+STAGE 3:
+Home page, anime catalog, search, genres and anime details.
+STAGE 4:
+Seasons, episodes, authorized video provider integration and Media3 player.
+STAGE 5:
+Picture-in-Picture, background audio, foreground media playback service, lock-screen controls and notifications.
+STAGE 6:
+Favorites, Watch Later, Continue Watching and Watch History.
+STAGE 7:
+Profile, settings, notifications, localization and additional features.
+STAGE 8:
+Security, testing, optimization and future advertisement integration.
+STAGE 9:
+Final APK build instructions and complete project documentation.
+For each stage:
+Explain what will be created.
+Show the exact file structure.
+Generate complete code for every new or modified file.
+Include the exact file path.
+Never use incomplete placeholders such as "implement this later" for a required feature.
+Do not omit imports.
+Do not invent APIs or functions.
+Ensure compatibility with previously generated files.
+Check dependencies.
+Explain how to test the stage.
+Wait for my approval before proceeding to the next stage.
+If a response is too long, divide it into numbered parts.
+Maintain a project progress checklist so future conversations can continue from the correct stage.
+If you modify an existing file, provide the complete updated file, not just a partial code fragment.
+Do not regenerate the whole project unnecessarily.
+30. FINAL INSTRUCTIONS
+I want NIME WATCHER to become a real, beautiful, stable and functional anime streaming Android application.
+Prioritize:
+Functional application.
+Excellent anime UI.
+Secure Firebase authentication.
+Real authorized anime streaming.
+YouTube Premium-style background playback.
+Picture-in-Picture.
+Reliable video player.
+Favorites and Watch Later.
+Continue Watching.
+Future advertising readiness.
+Do not just describe how to build the application.
+Actually generate the project source code step by step.
+Start with STAGE 1 now.
+Before generating code, explain the selected architecture, the tools required, the free-tier limitations, and how I will eventually build the APK using my Android phone and Termux.
+PROJECT NAME: NIME WATCHER
+TAGLINE: WATCH ANIME. ANYTIME. FREE.

@@ -1,0 +1,172 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isOptionalString(data, key, maxLen) {
+      return !(key in data) || data[key] == null || (data[key] is string && data[key].size() <= maxLen);
+    }
+
+    function isValidUserProfile(data) {
+      return data.userId is string && isValidId(data.userId) &&
+             isOptionalString(data, 'firstName', 40) &&
+             isOptionalString(data, 'lastName', 40) &&
+             isOptionalString(data, 'surname', 40) &&
+             data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 60 &&
+             data.email is string && data.email.size() >= 3 && data.email.size() <= 120 &&
+             isOptionalString(data, 'dateOfBirth', 16) &&
+             data.avatarId is string && data.avatarId.size() >= 1 && data.avatarId.size() <= 64 &&
+             isOptionalString(data, 'photoUrl', 500) &&
+             isOptionalString(data, 'customAvatarPath', 300) &&
+             data.profileCompleted is bool &&
+             data.termsAccepted is bool &&
+             data.preferredLanguage in ['en', 'bn'] &&
+             data.darkModeEnabled is bool &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidGenrePreference(data, ownerUid) {
+      return data.userId is string &&
+             data.userId == ownerUid &&
+             data.preferredTags is list &&
+             data.preferredTags.size() <= 25 &&
+             (data.preferredTags.size() == 0 || data.preferredTags[0] is string) &&
+             data.sortBy in ['TRENDING_DESC', 'POPULARITY_DESC', 'SCORE_DESC', 'START_DATE_DESC', 'TITLE_ROMAJI'] &&
+             data.formatFilter in ['ALL', 'TV', 'MOVIE', 'OVA', 'ONA', 'SPECIAL'] &&
+             data.onlyShowPreferred is bool &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidDiscoveryCategory(data, ownerUid) {
+      return data.userId is string &&
+             data.userId == ownerUid &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 50 &&
+             data.queryValue is string && data.queryValue.size() >= 1 && data.queryValue.size() <= 40 &&
+             data.filterKind in ['genre', 'tag'] &&
+             data.accentKey in ['orange', 'amber', 'emerald', 'cyan', 'rose', 'violet'] &&
+             data.isPinned is bool &&
+             data.sortOrder is int && data.sortOrder >= 0 && data.sortOrder <= 500 &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow list: if false;
+
+      allow create: if isOwner(userId) &&
+                       isValidId(userId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().keys().hasAll([
+                         'userId', 'displayName', 'email', 'avatarId',
+                         'profileCompleted', 'termsAccepted',
+                         'preferredLanguage', 'darkModeEnabled', 'createdAt', 'updatedAt'
+                       ]) &&
+                       incoming().keys().hasOnly([
+                         'userId', 'firstName', 'lastName', 'surname', 'displayName',
+                         'email', 'dateOfBirth', 'avatarId', 'photoUrl', 'customAvatarPath',
+                         'profileCompleted', 'termsAccepted',
+                         'preferredLanguage', 'darkModeEnabled', 'createdAt', 'updatedAt'
+                       ]) &&
+                       isValidUserProfile(incoming());
+
+      allow update: if isOwner(userId) &&
+                       isValidId(userId) &&
+                       isValidUserProfile(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().diff(existing()).affectedKeys().hasOnly([
+                         'firstName', 'lastName', 'surname', 'displayName',
+                         'email', 'dateOfBirth', 'avatarId', 'photoUrl', 'customAvatarPath',
+                         'profileCompleted', 'termsAccepted',
+                         'preferredLanguage', 'darkModeEnabled', 'updatedAt'
+                       ]);
+
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      match /genre_preferences/{preferenceId} {
+        allow get: if isOwner(userId) && isValidId(preferenceId);
+        allow list: if isOwner(userId);
+
+        allow create: if isOwner(userId) &&
+                         isValidId(preferenceId) &&
+                         incoming().userId == request.auth.uid &&
+                         incoming().keys().hasAll([
+                           'userId', 'preferredTags', 'sortBy', 'formatFilter',
+                           'onlyShowPreferred', 'createdAt', 'updatedAt'
+                         ]) &&
+                         incoming().keys().hasOnly([
+                           'userId', 'preferredTags', 'sortBy', 'formatFilter',
+                           'onlyShowPreferred', 'createdAt', 'updatedAt'
+                         ]) &&
+                         isValidGenrePreference(incoming(), userId);
+
+        allow update: if isOwner(userId) &&
+                         isValidId(preferenceId) &&
+                         isValidGenrePreference(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().diff(existing()).affectedKeys().hasOnly([
+                           'preferredTags', 'sortBy', 'formatFilter', 'onlyShowPreferred', 'updatedAt'
+                         ]);
+
+        allow delete: if isOwner(userId) && isValidId(preferenceId);
+      }
+
+      match /discovery_categories/{categoryId} {
+        allow get: if isOwner(userId) && isValidId(categoryId);
+        allow list: if isOwner(userId);
+
+        allow create: if isOwner(userId) &&
+                         isValidId(categoryId) &&
+                         incoming().userId == request.auth.uid &&
+                         incoming().keys().hasAll([
+                           'userId', 'name', 'queryValue', 'filterKind',
+                           'accentKey', 'isPinned', 'sortOrder', 'createdAt', 'updatedAt'
+                         ]) &&
+                         incoming().keys().hasOnly([
+                           'userId', 'name', 'queryValue', 'filterKind',
+                           'accentKey', 'isPinned', 'sortOrder', 'createdAt', 'updatedAt'
+                         ]) &&
+                         isValidDiscoveryCategory(incoming(), userId);
+
+        allow update: if isOwner(userId) &&
+                         isValidId(categoryId) &&
+                         isValidDiscoveryCategory(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().diff(existing()).affectedKeys().hasOnly([
+                           'name', 'queryValue', 'filterKind', 'accentKey',
+                           'isPinned', 'sortOrder', 'updatedAt'
+                         ]);
+
+        allow delete: if isOwner(userId) && isValidId(categoryId);
+      }
+    }
+  }
+}

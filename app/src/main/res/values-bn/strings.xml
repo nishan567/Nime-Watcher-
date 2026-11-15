@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Nime Watcher</string>
+    <string name="brand_wordmark">NIME WATCHER</string>
+    <string name="app_tagline">যেকোনো সময় অ্যানিমে দেখুন। বিনামূল্যে।</string>
+    <string name="nav_home">হোম</string>
+    <string name="nav_search">খুঁজুন</string>
+    <string name="nav_watch_later">পরে দেখুন</string>
+    <string name="nav_favorites">পছন্দ</string>
+    <string name="nav_profile">প্রোফাইল</string>
+    <string name="sign_in_google">Google দিয়ে চালিয়ে যান</string>
+    <string name="welcome_headline">আপনার সিনেমাটিক অ্যানিমে জগত</string>
+    <string name="welcome_subtitle">Picture-in-Picture, ব্যাকগ্রাউন্ড অডিও এবং ক্লাউড সিঙ্কসহ অনুমোদিত অ্যানিমে স্ট্রিম করুন।</string>
+    <string name="offline_banner">আপনি অফলাইনে আছেন। ক্যাশ করা তথ্য দেখানো হচ্ছে।</string>
+    <string name="settings_title">থিম ও ফাউন্ডেশন সেটিংস</string>
+    <string name="sign_out">সাইন আউট</string>
+    <string name="stage_badge">স্টেজ ৪ Media3 প্লেয়ার সক্রিয়</string>
+    <string name="retry">আবার চেষ্টা করুন</string>
+    <string name="loading_session">সেশন যাচাই হচ্ছে…</string>
+    <string name="watch_now">এখনই দেখুন</string>
+    <string name="add_to_favorites">পছন্দে যোগ করুন</string>
+    <string name="in_favorites">পছন্দে যুক্ত</string>
+    <string name="add_to_watch_later">পরে দেখুন</string>
+    <string name="in_watch_later">সংরক্ষিত</string>
+    <string name="share_anime">শেয়ার করুন</string>
+    <string name="see_all">সব দেখুন</string>
+    <string name="search_hint">অ্যানিমে শিরোনাম বা জাপানি নাম খুঁজুন…</string>
+    <string name="clear_history">ইতিহাস মুছুন</string>
+    <string name="no_results_title">কোনো অ্যানিমে পাওয়া যায়নি</string>
+    <string name="no_results_subtitle">অন্য শিরোনাম লিখুন, ফিল্টার মুছুন বা অন্য জনরা দেখুন।</string>
+    <string name="reset_filters">ফিল্টার রিসেট করুন</string>
+    <string name="episodes_title">পর্বসমূহ</string>
+    <string name="related_anime_title">সম্পর্কিত ও সিক্যুয়েল</string>
+</resources>

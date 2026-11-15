@@ -1,0 +1,210 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated Nime Watcher user profile, onboarding details, and preferences.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the owner."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "User first name (private to owner)."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "User middle/last name (private to owner)."
+        },
+        "surname": {
+          "type": "string",
+          "description": "User family/surname (private to owner)."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name shown in profile and greeting."
+        },
+        "email": {
+          "type": "string",
+          "description": "Private user email address visible only to the owner."
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "ISO date string YYYY-MM-DD handled privately."
+        },
+        "avatarId": {
+          "type": "string",
+          "description": "Selected original anime avatar identifier, google_photo, or custom_photo."
+        },
+        "photoUrl": {
+          "type": "string",
+          "description": "Optional Google profile photo URL."
+        },
+        "customAvatarPath": {
+          "type": "string",
+          "description": "Optional local app-internal path to cropped custom avatar image."
+        },
+        "profileCompleted": {
+          "type": "boolean",
+          "description": "Whether onboarding registration details were completed."
+        },
+        "termsAccepted": {
+          "type": "boolean",
+          "description": "Whether Terms of Service and Privacy Policy were accepted."
+        },
+        "preferredLanguage": {
+          "type": "string",
+          "enum": ["en", "bn"],
+          "description": "UI language preference (English or Bangla)."
+        },
+        "darkModeEnabled": {
+          "type": "boolean",
+          "description": "Whether dark obsidian theme is active."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp written with FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp written with FieldValue.serverTimestamp()."
+        }
+      },
+      "required": [
+        "userId",
+        "displayName",
+        "email",
+        "avatarId",
+        "profileCompleted",
+        "termsAccepted",
+        "preferredLanguage",
+        "darkModeEnabled",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UserGenrePreference": {
+      "title": "UserGenrePreference",
+      "description": "Authenticated user's saved genre & tag discovery preferences.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the owner."
+        },
+        "preferredTags": {
+          "type": "array",
+          "description": "Bounded list (max 25) of favorite anime genres or tags."
+        },
+        "sortBy": {
+          "type": "string",
+          "enum": ["TRENDING_DESC", "POPULARITY_DESC", "SCORE_DESC", "START_DATE_DESC", "TITLE_ROMAJI"],
+          "description": "Preferred sort order for genre-based discovery."
+        },
+        "formatFilter": {
+          "type": "string",
+          "enum": ["ALL", "TV", "MOVIE", "OVA", "ONA", "SPECIAL"],
+          "description": "Preferred anime release format filter."
+        },
+        "onlyShowPreferred": {
+          "type": "boolean",
+          "description": "Whether to prioritize/filter shelves to the user's preferred tags."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp written with FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp written with FieldValue.serverTimestamp()."
+        }
+      },
+      "required": [
+        "userId",
+        "preferredTags",
+        "sortBy",
+        "formatFilter",
+        "onlyShowPreferred",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "DiscoveryCategory": {
+      "title": "DiscoveryCategory",
+      "description": "Custom or curated genre/tag shelf category stored per user in Firestore.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the owner."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the genre or tag category."
+        },
+        "queryValue": {
+          "type": "string",
+          "description": "Exact AniList genre or tag string used to fetch anime."
+        },
+        "filterKind": {
+          "type": "string",
+          "enum": ["genre", "tag"],
+          "description": "Whether queryValue maps to AniList genre_in or tag_in."
+        },
+        "accentKey": {
+          "type": "string",
+          "enum": ["orange", "amber", "emerald", "cyan", "rose", "violet"],
+          "description": "Visual accent theme key for the category card."
+        },
+        "isPinned": {
+          "type": "boolean",
+          "description": "Whether this category is pinned to the top of discovery."
+        },
+        "sortOrder": {
+          "type": "integer",
+          "description": "Display order index (0..500)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp written with FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp written with FieldValue.serverTimestamp()."
+        }
+      },
+      "required": [
+        "userId",
+        "name",
+        "queryValue",
+        "filterKind",
+        "accentKey",
+        "isPinned",
+        "sortOrder",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profile and preferences owned strictly by userId."
+    },
+    "/users/{userId}/genre_preferences/{preferenceId}": {
+      "schema": { "$ref": "#/entities/UserGenrePreference" },
+      "description": "User genre and tag discovery preferences owned strictly by userId."
+    },
+    "/users/{userId}/discovery_categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/DiscoveryCategory" },
+      "description": "User-customized anime tag and genre categories for discovery shelves."
+    }
+  }
+}
